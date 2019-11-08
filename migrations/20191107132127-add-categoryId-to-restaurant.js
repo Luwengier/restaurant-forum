@@ -6,7 +6,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       reference: {
-        model: 'Categories',
+        model: 'Category',
         key: 'id'
       }
     })

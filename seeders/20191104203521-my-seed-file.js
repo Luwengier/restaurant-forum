@@ -53,8 +53,9 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.bulkDelete('Categories', null, {});
-    queryInterface.bulkDelete('Users', null, {});
-    return queryInterface.bulkDelete('Restaurants', null, {});
+    const option = { truncate: true, restartIdentity: true }
+    queryInterface.bulkDelete('Categories', null, option);
+    queryInterface.bulkDelete('Users', null, option);
+    return queryInterface.bulkDelete('Restaurants', null, option);
   }
 };
