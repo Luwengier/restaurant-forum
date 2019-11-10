@@ -9,6 +9,7 @@ const Category = db.Category
 
 
 const adminController = {
+  // ------ Restaurant CRUD ------
   getRestaurants: (req, res) => {
     return Restaurant.findAll({ include: [Category] }).then(restaurants => {
       // console.log(restaurants) 
@@ -133,7 +134,9 @@ const adminController = {
         res.redirect('/admin/restaurants')
       })
   },
-  // Set admin of the user 
+
+
+  // ------ Set admin of the user ------
   editUsers: (req, res) => {
     return User.findAll().then(users => {
       return res.render('admin/users', { users })
@@ -149,7 +152,8 @@ const adminController = {
       .then((restaurant) => {
         res.redirect('/admin/users')
       })
-  }
+  },
+
 }
 
 module.exports = adminController
