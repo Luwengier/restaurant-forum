@@ -55,7 +55,6 @@ const UserController = {
       ]
     })
       .then((user) => {
-        console.log(user.Comments[0].Restaurant.image)
         res.render('profile/profile', { user })
       })
   },
