@@ -1,0 +1,20 @@
+<div class="row border rounded overflow-hidden flex-md-row bg-white">
+
+  <div class="col-4 my-3" style="height: 250px;">
+    {{#if user.image}}
+    <img src="{{user.image}}" alt="圖片" class="rounded-circle mh-100 mw-100" style="height: 250px; width: 250px;">
+    {{else}}
+    <div class="rounded-circle mh-100 mw-100 bg-dark" style="height: 250px; width: 250px;"></div>
+    {{/if}}
+  </div>
+  <div class="col-8">
+    <h4>{{user.name}}</h4>
+    <p>{{user.email}}</p>
+    <button type="button" class="btn btn-primary">
+      <a href="/users/{{user.id}}/edit" style="color: white;">
+        Edit
+      </a>
+    </button>
+  </div>
+
+</div>

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
+const fs = require('fs')
 
 const UserController = {
   signUpPage: (req, res) => {
@@ -40,6 +41,58 @@ const UserController = {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+
+  // Profile CRUD
+  getUser: (req, res) => {
+    return res.render('profile/profile')
+  },
+  editUser: (req, res) => {
+    return res.render('profile/create')
+  },
+  putUser: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+
+    const { file } = req
+    if (file) {
+      fs.readFile(file.path, (err, data) => {
+        if (err) console.log('Error: ', err)
+        fs.writeFile(`upload/${file.originalname}`, data, () => {
+          return User.findByPk(req.params.id)
+            .then((user) => {
+              console.log(user)
+              return user.update({
+                name: req.body.name,
+                image: file ? `/upload/${file.originalname}` : null
+              })
+            })
+            .then((user) => {
+              console.log(user)
+              req.flash('success_messages', 'User was successfully updated')
+              return res.redirect(`/users/${req.params.id}`)
+            })
+        }
+        )
+      })
+    } else {
+      return User.findByPk(req.params.id)
+        .then((user) => {
+          console.log(user)
+          return user.update({
+            name: req.body.name,
+            image: file ? `/upload/${file.originalname}` : null
+          })
+        })
+        .then((user) => {
+          console.log(user)
+          req.flash('success_messages', 'User was successfully updated')
+          return res.redirect(`/users/${user.id}`)
+        })
+
+    }
   }
 }
 

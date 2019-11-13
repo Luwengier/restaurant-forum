@@ -149,7 +149,7 @@ const adminController = {
           isAdmin: !user.isAdmin
         })
       })
-      .then((restaurant) => {
+      .then((user) => {
         res.redirect('/admin/users')
       })
   },
