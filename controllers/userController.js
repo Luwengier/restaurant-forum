@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
 const fs = require('fs')
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = '5d5c9ecc8433aa7'
 
 const UserController = {
   signUpPage: (req, res) => {
@@ -58,40 +60,35 @@ const UserController = {
 
     const { file } = req
     if (file) {
-      fs.readFile(file.path, (err, data) => {
-        if (err) console.log('Error: ', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return User.findByPk(req.params.id)
-            .then((user) => {
-              console.log(user)
-              return user.update({
-                name: req.body.name,
-                image: file ? `/upload/${file.originalname}` : null
-              })
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+
+        return User.findByPk(req.params.id)
+          .then((user) => {
+            console.log(user)
+            return user.update({
+              name: req.body.name,
+              image: file ? img.data.link : null
             })
-            .then((user) => {
-              console.log(user)
-              req.flash('success_messages', 'User was successfully updated')
-              return res.redirect(`/users/${req.params.id}`)
-            })
-        }
-        )
+          })
+          .then((user) => {
+            console.log(user)
+            req.flash('success_messages', 'User was successfully updated')
+            return res.redirect(`/users/${user.id}`)
+          })
       })
     } else {
       return User.findByPk(req.params.id)
         .then((user) => {
-          console.log(user)
           return user.update({
             name: req.body.name,
-            image: file ? `/upload/${file.originalname}` : null
+            image: null
           })
         })
         .then((user) => {
-          console.log(user)
           req.flash('success_messages', 'User was successfully updated')
           return res.redirect(`/users/${user.id}`)
         })
-
     }
   }
 }
