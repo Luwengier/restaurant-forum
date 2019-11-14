@@ -74,6 +74,18 @@ let restController = {
         })
       })
     })
+  },
+  // dashboard controllers
+  getDashboard: (req, res) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        Comment
+      ]
+    }).then((restaurant) => {
+      const commentNum = restaurant.Comments.length
+      return res.render('dashboard', { restaurant, commentNum })
+    })
   }
 
 }
