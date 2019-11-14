@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.addColumn('Users', 'isAdmin', {
       type: Sequelize.BOOLEAN,
       defaultValue: false
-    })
+    });
   },
 
   down: (queryInterface, Sequelize) => {
