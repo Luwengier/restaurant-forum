@@ -55,7 +55,8 @@ const UserController = {
       ]
     })
       .then((user) => {
-        res.render('profile/profile', { user })
+        const commentNum = user.Comments.length
+        res.render('profile/profile', { user, commentNum })
       })
   },
   editUser: (req, res) => {

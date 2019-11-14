@@ -7,21 +7,26 @@
       <div class="rounded-circle mh-100 mw-100 bg-dark" style="height: 250px; width: 250px;"></div>
       {{/if}}
     </div>
-    <div class="col-8">
-      <h4>{{user.name}}</h4>
-      <p>{{user.email}}</p>
-      <button type="button" class="btn btn-primary">
-        <a href="/users/{{user.id}}/edit" style="color: white;">
-          Edit
-        </a>
-      </button>
+    <div class="col-8 d-flex flex-column justify-content-around">
+      <div>
+        <h5>{{user.name}}</h5>
+        <p>{{user.email}}</p>
+        <h6>{{commentNum}}已評論餐廳</h6>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary">
+          <a href="/users/{{user.id}}/edit" style="color: white;">
+            Edit
+          </a>
+        </button>
+      </div>
     </div>
   </div>
 
 </div>
 
 <div class="card w-100 mt-3">
-  <h5 class="card-header">Featured</h5>
+  <h6 class="card-header">{{commentNum}}已評論餐廳</h6>
   <div class="card-body">
     {{#each user.Comments}}
     <a href="/restaurants/{{this.Restaurant.id}}" class="mx-2">
