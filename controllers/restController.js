@@ -50,8 +50,12 @@ let restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
-      return res.render('restaurant', {
-        restaurant: restaurant
+      return restaurant.increment({
+        'viewCounts': 1
+      }).then((restaurant) => {
+        return res.render('restaurant', {
+          restaurant: restaurant
+        })
       })
     })
   },
