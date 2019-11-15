@@ -148,7 +148,7 @@ const UserController = {
       }
     })
       .then((like) => {
-        return like.destroy()
+        like.destroy()
           .then((like) => {
             return res.redirect('back')
           })
