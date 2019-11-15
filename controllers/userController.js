@@ -6,6 +6,7 @@ const User = db.User
 const Restaurant = db.Restaurant
 const Comment = db.Comment
 const Favorite = db.Favorite
+const Like = db.Like
 const fs = require('fs')
 
 
@@ -114,7 +115,6 @@ const UserController = {
         return res.redirect('back')
       })
   },
-
   removeFavorite: (req, res) => {
     return Favorite.findOne({
       where: {
@@ -125,6 +125,31 @@ const UserController = {
       .then((favorite) => {
         favorite.destroy()
           .then((favorite) => {
+            return res.redirect('back')
+          })
+      })
+  },
+
+  // Like
+  addLike: (req, res) => {
+    return Like.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    })
+      .then((like) => {
+        return res.redirect('back')
+      })
+  },
+  removeLike: (req, res) => {
+    return Like.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
+      .then((like) => {
+        return like.destroy()
+          .then((like) => {
             return res.redirect('back')
           })
       })
