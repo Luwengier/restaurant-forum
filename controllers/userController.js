@@ -152,7 +152,7 @@ const UserController = {
       })
   },
 
-  // topuser controller
+  // Top Users
   getTopUser: (req, res) => {
     // 撈出所有 User 與 followers 資料
     return User.findAll({

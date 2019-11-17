@@ -26,6 +26,8 @@ module.exports = (app, passport) => {
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', authenticated, restController.getRestaurants)
   app.get('/restaurant/dashboard/:id', authenticated, restController.getDashboard)
+  // Top 10
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurant)
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
@@ -83,4 +85,6 @@ module.exports = (app, passport) => {
   // Follow
   app.post('/following/:userId', authenticated, userController.addFollowing)
   app.delete('/following/:userId', authenticated, userController.removeFollowing)
+
+
 }

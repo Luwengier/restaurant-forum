@@ -68,7 +68,7 @@ let restController = {
     })
   },
 
-  // feeds controllers
+  // Feeds controllers
   getFeeds: (req, res) => {
     return Restaurant.findAll({
       limit: 10,
@@ -87,7 +87,7 @@ let restController = {
       })
     })
   },
-  // dashboard controllers
+  // Dashboard controllers
   getDashboard: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
       include: [
@@ -97,6 +97,24 @@ let restController = {
     }).then((restaurant) => {
       const commentNum = restaurant.Comments.length
       return res.render('dashboard', { restaurant, commentNum })
+    })
+  },
+
+  // Top restaurants 
+  getTopRestaurant: (req, res) => {
+    return Restaurant.findAll({
+      include: [
+        { model: User, as: 'FavoritedUsers' }
+      ]
+    }).then(restaurants => {
+      restaurants = restaurants.map(restaurant => ({
+        ...restaurant.dataValues,
+        description: restaurant.dataValues.description.substring(0, 50),
+        FavoriteCount: restaurant.FavoritedUsers.length,
+        isFavorited: restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+      }))
+      restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount).slice(0, 10)
+      return res.render('topRestaurant', { restaurants })
     })
   }
 
